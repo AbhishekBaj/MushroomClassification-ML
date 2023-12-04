@@ -1,1 +1,1 @@
-# ML-Final
+# Machine Learning Final Project: Mushroom Classification
