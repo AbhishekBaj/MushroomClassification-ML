@@ -1,7 +1,7 @@
 import pandas as pd
 
 def preprocess_data():
-    df = pd.read_csv("./data/agaricus-lepiota.data", delimiter=',', header=None)
+    df = pd.read_csv("../data/agaricus-lepiota.data", delimiter=',', header=None)
     df.columns =['edible', 'cap-shape', 'cap-surface', 'cap-color', 'bruises', 'odor', 'gill-attachment', 'gill-spacing',
                  'gill-size', 'gill-color', 'stalk-shape', 'stalk-root', 'stalk-surface-above-ring', 'stalk-surface-below-ring',
                    'stalk-color-above-ring', 'stalk-color-below-ring', 'veil-type', 'veil-color', 'ring-number', 'ring-type', 
@@ -166,6 +166,13 @@ def preprocess_data():
 
     return df
 
+def preprocess_tree():
+  column_names = ['edible', 'cap-shape', 'cap-surface', 'cap-color', 'bruises', 'odor', 'gill-attachment', 'gill-spacing',
+      'gill-size', 'gill-color', 'stalk-shape', 'stalk-root', 'stalk-surface-above-ring', 'stalk-surface-below-ring',
+      'stalk-color-above-ring', 'stalk-color-below-ring', 'veil-type', 'veil-color', 'ring-number', 'ring-type', 
+      'spore-print-color', 'population', 'habitat']
 
+  X = pd.read_csv('../data/agaricus-lepiota.data', delimiter=',', header=None, names=column_names)
+  return X
 
 

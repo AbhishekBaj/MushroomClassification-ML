@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from preprocess_data import preprocess_data
-
+from metrics import calculate_metrics, confusion_matrix
 
 def z_score_standardization(data, mean, std):
     return (data - mean) / std
@@ -78,15 +78,7 @@ weights, mean_log_loss_history = run_logistic_regression(X_train, Y_train, epoch
 predicted_train = classify_samples(X_train, weights)
 
 # Metrics based on training data
-false_positive_train = np.sum((Y_train == 0) & (predicted_train == 1))
-false_negative_train = np.sum((Y_train == 1) & (predicted_train == 0))
-true_positive_train = np.sum((Y_train == 1) & (predicted_train == 1))
-true_negative_train = np.sum((Y_train == 0) & (predicted_train == 0))
-
-precision_train = true_positive_train / (true_positive_train + false_positive_train)
-recall_train = true_positive_train / (true_positive_train + false_negative_train)
-f1_score_train = 2 * (precision_train * recall_train) / (precision_train + recall_train)
-accuracy_train = (true_positive_train + true_negative_train) / len(Y_train)
+precision_train, recall_train, f1_score_train, accuracy_train = calculate_metrics(Y_train, predicted_train)
 
 print("Validation Metrics:")
 print("precision: ", precision_train)
@@ -95,25 +87,24 @@ print("f1_score: ", f1_score_train)
 print("accuracy: ", accuracy_train)
 print(" ")
 
+confusion_mat = confusion_matrix(Y_train, predicted_train, np.unique(Y_train))
+print("Confusion Matrix:\n", confusion_mat)
+
 weights, mean_log_loss_history_train = run_logistic_regression(X_val, Y_val, epochs, learning_rate, small_value)
 
 # Metrics for training data 
 predicted_val = classify_samples(X_val, weights)
-false_positive = np.sum((Y_val == 0) & (predicted_val == 1))
-false_negative = np.sum((Y_val == 1) & (predicted_val == 0))
-true_positive = np.sum((Y_val == 1) & (predicted_val == 1))
-true_negative = np.sum((Y_val == 0) & (predicted_val == 0))
-
-precision = true_positive / (true_positive + false_positive)
-recall = true_positive / (true_positive + false_negative)
-f1_score = 2 * (precision * recall) / (precision + recall)
-accuracy = (true_positive + true_negative) / len(Y_val)
+precision, recall, f1_score, accuracy = calculate_metrics(Y_val, predicted_val)
 
 print("Training Metrics: ")
 print("precision: ", precision)
 print("recall: ", recall)
 print("f1_score: ", f1_score)
 print("accuracy: ", accuracy)
+print(" ")
+
+confusion_mat = confusion_matrix(Y_val, predicted_val, np.unique(Y_val))
+print("Confusion Matrix:\n", confusion_mat)
 
 # Plot
 plt.plot(range(len(mean_log_loss_history_train)), mean_log_loss_history_train, label='Training Log Loss')
