@@ -87,10 +87,8 @@ def main():
         tree = DecisionTree()
         y_valid_pred = tree.myDT(x_train, y_train, x_valid)
     elif args.algorithm == 'logistic_regression':
-        learning_rate = 0.1
-        epochs = 10000
-        small_value = 2 ** (-32)
-        clf = LogisticRegression(learning_rate=0.1, epochs=10000, small_value=2 ** (-32))
+        
+        clf = LogisticRegression(learning_rate=0.1, epochs=5000, small_value=2 ** (-32))
         weights, mean_log_loss_history = clf.run_logistic_regression(x_train, y_train)
         y_valid_pred = clf.predict(x_valid)
     elif args.algorithm == 'adaboost':
