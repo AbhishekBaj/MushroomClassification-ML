@@ -13,7 +13,7 @@ def ID3():
 
     x_train, x_valid, y_train, y_valid = prepare_data(data)
     # x_train, x_valid = convert_to_onehot(x_train, x_valid)
-    x_train, x_valid = convert_to_binary(x_train, x_valid)
+    # x_train, x_valid = convert_to_binary(x_train, x_valid)
 
     y_valid_pred = myDT(x_train, y_train, x_valid)
     precision, recall, f1_score, accur = calculate_metrics(y_valid, y_valid_pred)
