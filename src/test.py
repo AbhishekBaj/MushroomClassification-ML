@@ -85,13 +85,17 @@ def main():
     y = y.astype(int)
     x = data.drop('class', axis=1)
 
-    if args.algorithm != "logistic_regression":
+    if args.algorithm == "decision_tree" or args.algorithm == "adaboost":
         x = pd.get_dummies(x)
+        x_train, x_valid, y_train, y_valid = train_test_split(x, y, test_size=0.2, random_state=0)
+    
+    if args.algorithm == "logistic_regression":
+        split_index = int(np.ceil(2/3 * len(data)))
+        x_train, x_valid, y_train, y_valid = x.iloc[:split_index, :], x.iloc[split_index:, :], y.iloc[:split_index], y.iloc[split_index:]
 
-    split_index = int(np.ceil(2/3 * len(data)))
 
     # two different ways of splitting
-    x_train, x_valid, y_train, y_valid = x.iloc[:split_index, :], x.iloc[split_index:, :], y.iloc[:split_index], y.iloc[split_index:]
+    # x_train, x_valid, y_train, y_valid = x.iloc[:split_index, :], x.iloc[split_index:, :], y.iloc[:split_index], y.iloc[split_index:]
     # x_train, x_valid, y_train, y_valid = train_test_split(x, y, test_size=0.2, random_state=0)
 
     x_train = np.array(x_train)
@@ -106,7 +110,7 @@ def main():
 
     elif args.algorithm == 'logistic_regression':
         print('Logistic Regression Results:\n')
-        learning_rate = 0.01
+        learning_rate = 0.1
         epochs = 10000
         small_value = 2 ** (-32)
         logistic = LogisticRegression(learning_rate, epochs, small_value)
@@ -150,6 +154,8 @@ def main():
         print('F1 Score: ', f1)
         print('Accuracy: ', acc)
 
+    y_valid = y_valid.astype(int)
+    y_valid_pred = y_valid_pred.astype(int)
     confusion = confusion_matrix(y_valid, y_valid_pred)
     plt.figure(figsize=(4, 3))
     sns.heatmap(confusion, annot=True, fmt='d', cmap='Blues', cbar=True)
