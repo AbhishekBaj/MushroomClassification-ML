@@ -56,7 +56,7 @@ class Adaboost():
                         min_error = error
                         
             EPS = 1e-10
-            clf.alpha = 0.5 * np.log((1.0 - error + EPS) / (error + EPS))
+            clf.alpha = 0.6 * np.log((1.0 - error + EPS) / (error + EPS))
             
             predictions = clf.predict(X)
             
