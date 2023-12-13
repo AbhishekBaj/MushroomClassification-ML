@@ -22,8 +22,6 @@ logistic_regression.py: Implements Logistic Regression with gradient descent.
 
 preprocess_data.py: Contains data preprocessing functions.
 
-additional_code.py: Additional components such as DecisionStump and LogisticRegression.
-
 README.md: Project documentation.
 
 data/updated_df_train_file.csv: Input dataset.
